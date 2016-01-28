@@ -1,5 +1,6 @@
 package com.example.gajahterbang.passwordku;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,9 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    String[] mobileArray = {"Android","IPhone","WindowsMobile","Blackberry","WebOS","Ubuntu","Windows7","Max OS X"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,24 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, mobileArray);
+
+        ListView listView = (ListView) findViewById(R.id.passwordList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String lst_txt = parent.getItemAtPosition(position).toString().trim();
+//                tv4.setText(lst_txt);
+                Intent i = new Intent(MainActivity.this, EditActivity.class);
+                // sending data to new activity
+                i.putExtra("data",lst_txt );
+                startActivity(i);
+            }
+        });
+
+
     }
 
     @Override
